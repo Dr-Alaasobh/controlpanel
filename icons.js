@@ -77,3 +77,18 @@ function icon(name, className) {
   if (!def) return '';
   return '<svg class="icon' + (className ? ' ' + className : '') + '" viewBox="' + def.vb + '" fill="currentColor" aria-hidden="true"><path d="' + def.d + '"/></svg>';
 }
+/* ===== شعار المنصة ===== */
+(function(){
+  var n=0;
+  window.brandLogo=function(size){
+    var id='bg'+(++n), s=size||44;
+    return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 48 48" role="img" aria-label="شعار د.علاء صبح" xmlns="http://www.w3.org/2000/svg">'+
+      '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b2fa3"/><stop offset="1" stop-color="#2a0f4a"/></linearGradient></defs>'+
+      '<rect width="48" height="48" rx="14" fill="url(#'+id+')"/>'+
+      '<rect x=".75" y=".75" width="46.5" height="46.5" rx="13.3" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>'+
+      '<path d="M24 35c-5-4-11-5-15-4V19c4-1 10 0 15 4z" fill="#fff"/>'+
+      '<path d="M24 35c5-4 11-5 15-4V19c-4-1-10 0-15 4z" fill="#f6d9b0"/>'+
+      '<path d="M24 23v12" stroke="#2a0f4a" stroke-width="1.4" opacity=".35"/>'+
+      '<path d="M24 5.5l1.7 4.3 4.3 1.7-4.3 1.7L24 17.5l-1.7-4.3-4.3-1.7 4.3-1.7z" fill="#f0a53a"/></svg>';
+  };
+})();
