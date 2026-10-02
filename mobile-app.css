@@ -1,0 +1,36 @@
+/* mobile-app.css — تطبيق الموبايل (لوحة المسئول) — للهواتف فقط */
+.dev-credit,.fs-btn{display:none}
+@media (max-width:600px) and (pointer:coarse){
+ html,body{overscroll-behavior-y:none;-webkit-text-size-adjust:100%}
+ body{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+ input,textarea,select,[contenteditable],.pg-ans,.pg-mono,.pg-code{-webkit-user-select:text;user-select:text}
+ button:active,a:active{opacity:.85}
+
+ /* شريط علوي */
+ .app-header::before{content:"";position:fixed;top:0;left:0;right:0;z-index:40;height:calc(58px + env(safe-area-inset-top,0px));background:linear-gradient(135deg,#123A7A,#06142B);box-shadow:0 6px 20px rgba(6,20,43,.28)}
+ .sb-brand{display:flex!important;position:fixed;z-index:41;top:env(safe-area-inset-top,0px);inset-inline-start:14px;height:58px;margin:0;padding:0;border:0;gap:10px;align-items:center}
+ .sb-brand b{font-size:17px;color:#fff}.sb-brand small{display:none}
+ .sb-mark svg{width:34px;height:34px}
+ .sb-foot{position:fixed;z-index:41;top:env(safe-area-inset-top,0px);inset-inline-end:12px;height:58px;display:flex!important;align-items:center;gap:8px;padding:0;border:0;width:auto}
+ .sb-foot .sb-btn,.sb-foot .sb-btn:first-child,.fs-btn{display:grid!important;place-items:center;width:40px;height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.12);color:#fff;padding:0;cursor:pointer}
+ .fs-btn.fs-float{position:fixed;z-index:9999;top:calc(10px + env(safe-area-inset-top,0px));inset-inline-end:12px;background:rgba(6,20,43,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+
+ /* شريط تبويبات سفلي */
+ .app-header{padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))!important;border-radius:22px 22px 0 0!important;box-shadow:0 -8px 28px rgba(0,0,0,.28)!important}
+ .app-header .sb-nav{width:100%;gap:2px}
+ .sb-nav a{position:relative;border-radius:14px!important;font-size:10.5px!important;font-weight:800;padding:8px 1px 6px!important;background:none!important;box-shadow:none!important;color:#8FA3C6!important}
+ .sb-nav a .icon{width:23px;height:23px}
+ .sb-nav a.active{color:#fff!important;background:rgba(37,99,235,.36)!important}
+ .sb-nav a.active::before{content:"";position:absolute;top:-6px;left:32%;right:32%;height:3px;border-radius:0 0 4px 4px;background:#6EA0FF}
+ .sb-nav a:active{transform:scale(.92)}
+
+ .page{padding:calc(70px + env(safe-area-inset-top,0px)) 14px calc(96px + env(safe-area-inset-bottom,0px))!important}
+ .box,.pg-pn{border-radius:20px!important;box-shadow:0 2px 10px rgba(11,36,71,.07)!important}
+ .btn:hover{transform:none!important}
+
+ /* اسم المطور */
+ .dev-credit{display:flex;align-items:center;justify-content:center;gap:8px;width:fit-content;margin:-70px auto 96px;padding:9px 18px;border-radius:999px;position:relative;z-index:1;
+  background:var(--primary-tint,#EAF0FF);border:1px solid var(--border,#DFE5EF);color:var(--text-muted,#5B6B86);font:700 12px/1 'Cairo',sans-serif}
+ .dev-credit b{color:var(--primary-light,#1D4ED8);font-weight:900;font-size:13px}
+ .dev-credit::before{content:"</>";direction:ltr;font-weight:900;color:#0F9F82}
+}
