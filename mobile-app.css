@@ -34,3 +34,24 @@
  .dev-credit b{color:var(--primary-light,#1D4ED8);font-weight:900;font-size:13px}
  .dev-credit::before{content:"</>";direction:ltr;font-weight:900;color:#0F9F82}
 }
+
+/* ===== v3: تحسينات عامة للهواتف (كل الصفحات) ===== */
+body[data-no-dev] .dev-credit{display:none!important}
+.to-top{display:none}
+@media (max-width:600px){
+ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+ body{max-width:100%;overflow-x:hidden;overflow-x:clip}
+ img,video,canvas,iframe{max-width:100%}
+ input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{font-size:16px!important}
+ .btn,button[type=submit]{min-height:44px}
+ pre,code{white-space:pre-wrap;word-break:break-word}
+ .shell{min-height:100vh;min-height:100dvh}
+}
+@media (max-width:600px) and (pointer:coarse){
+ .to-top{display:grid;position:fixed;right:14px;bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:900;width:44px;height:44px;padding:0;place-items:center;border-radius:50%;
+  border:1px solid var(--border,#DFE5EF);background:var(--card-bg,#fff);color:var(--primary-light,#1D4ED8);box-shadow:0 6px 18px rgba(6,20,43,.22);
+  opacity:0;transform:translateY(12px) scale(.9);pointer-events:none;transition:opacity .2s,transform .2s;cursor:pointer}
+ .to-top.show{opacity:1;transform:none;pointer-events:auto}
+ .to-top:active{transform:scale(.92)}
+}
+@media screen and (max-width:600px){table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}}

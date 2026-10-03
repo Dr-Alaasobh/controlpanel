@@ -4,78 +4,73 @@
 <meta charset="UTF-8">
 <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("asb_theme")||"light")</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06142B">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>دخول المسئول | د.علاء صبح</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="login.css">
-<link rel="stylesheet" href="login-theme.css?v=1">
-<link rel="stylesheet" href="mobile-app.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="login-v3.css?v=1">
+<link rel="stylesheet" href="mobile-app.css?v=3">
 </head>
-<body>
+<body data-no-dev>
 
-<div class="shell">
+<div class="auth">
 
-  <!-- ============ Brand Panel ============ -->
-  <aside class="brand">
-    <div class="brand-glow" aria-hidden="true"></div>
-    <div class="star-field" aria-hidden="true">
-      <svg width="620" height="620" viewBox="0 0 620 620" style="top:-60px; right:-140px; opacity:.35;">
-        <g stroke="#B86114" stroke-width="1" fill="none" opacity=".5">
-          <polygon points="310,60 380,230 560,230 415,340 470,510 310,405 150,510 205,340 60,230 240,230"/>
-        </g>
-        <circle cx="310" cy="310" r="230" stroke="#FFFFFF" stroke-width="0.6" fill="none" opacity=".18"/>
-        <circle cx="310" cy="310" r="170" stroke="#FFFFFF" stroke-width="0.6" fill="none" opacity=".14"/>
-      </svg>
-      <svg width="420" height="420" viewBox="0 0 420 420" style="bottom:-90px; left:-120px; opacity:.25;">
-        <g stroke="#FFFFFF" stroke-width="0.7" fill="none">
-          <polygon points="210,40 258,155 380,155 282,228 320,345 210,272 100,345 138,228 40,155 162,155"/>
-        </g>
-      </svg>
+  <section class="hero">
+    <a class="brand" href="index.html" aria-label="د.علاء صبح">
+      <svg viewBox="0 0 48 48" role="img" aria-label="شعار د.علاء صبح" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1D4ED8"/><stop offset="1" stop-color="#0B2447"/></linearGradient></defs><rect width="48" height="48" rx="14" fill="url(#lg)"/><rect x=".75" y=".75" width="46.5" height="46.5" rx="13.3" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><path d="M24 35c-5-4-11-5-15-4V19c4-1 10 0 15 4z" fill="#fff"/><path d="M24 35c5-4 11-5 15-4V19c-4-1-10 0-15 4z" fill="#34D3A8"/><circle cx="24" cy="14" r="3.2" fill="#34D3A8"/></svg>
+      <span><b>د.علاء صبح</b><small>لوحة المسئول</small></span>
+    </a>
+    <div class="hero-body">
+      <p class="hero-title">منصتك كلها في مكان واحد.</p>
+      <p class="hero-sub">اتابع الكورسات والأكواد والحضور والتصحيح من لوحة واحدة، وكل حاجة محفوظة لحظة بلحظة.</p>
+      <ul class="ledger" aria-hidden="true">
+        <li>الكورسات<small>محاضرات وفيديوهات واختبارات</small></li>
+        <li>الأكواد<small>أكواد الطلاب والسناتر</small></li>
+        <li>الحضور والغياب<small>حصص واشتراكات شهرية</small></li>
+        <li>التصحيح<small>أسئلة المقال</small></li>
+      </ul>
     </div>
+  </section>
 
-    <div class="brand-top">
-      <div class="brand-name">د.علاء صبح<span>لوحة المسئول</span></div>
-    </div>
-
-    <div class="brand-mid">
-      <div class="brand-quote-mark" aria-hidden="true">"</div>
-      <h2 class="brand-headline">لوحة تحكم كاملة في منصتك: كورسات، أكواد، وطلاب</h2>
-      <p class="brand-sub">سجّل دخولك لإدارة الكورسات والمحاضرات والاختبارات وأكواد السناتر ومتابعة أداء الطلاب.</p>
-    </div>
-
-    <div class="brand-bottom">
-      <div class="brand-stat"><b>كورسات</b><span>ومحاضرات</span></div>
-      <div class="brand-stat"><b>أكواد</b><span>لكل سنتر</span></div>
-      <div class="brand-stat"><b>طلاب</b><span>وأداء عام</span></div>
-    </div>
-  </aside>
-
-  <!-- ============ Form Panel ============ -->
-  <main class="form-panel">
-    <div class="form-wrap">
-
-      <div class="mobile-brand">
-        <div class="brand-name">د.علاء صبح<span>لوحة المسئول</span></div>
-      </div>
+  <main class="sheet">
+    <div class="sheet-in">
 
       <div class="form-head">
         <h1>دخول المسئول</h1>
-        <p>أدخل اسم المستخدم وكلمة المرور للمتابعة</p>
+        <p>أدخل اسم المستخدم وكلمة المرور للمتابعة.</p>
       </div>
 
       <form id="loginForm" novalidate autocomplete="on">
         <!-- خانات وهمية مخفية لامتصاص اقتراحات المتصفح المحفوظة بدل الخانات الحقيقية -->
-        <input type="text" name="username" autocomplete="username" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;" tabindex="-1" aria-hidden="true">
-        <input type="password" name="password" autocomplete="new-password" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;" tabindex="-1" aria-hidden="true">
+        <input type="text" name="username" autocomplete="username" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0" tabindex="-1" aria-hidden="true">
+        <input type="password" name="password" autocomplete="new-password" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0" tabindex="-1" aria-hidden="true">
 
-        <div class="field" id="identifierField"><div class="input-shell"><input type="text" id="identifierInput" name="username" autocomplete="username" name="adm_user" placeholder=" " autocomplete="off" autocapitalize="off" spellcheck="false"><label for="identifierInput" class="floating-label">اسم المستخدم</label><svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="field-error">اكتب اسم المستخدم</span></div>
-        <div class="field" id="passField"><div class="input-shell"><input type="password" id="passInput" name="password" autocomplete="current-password" name="adm_pass" placeholder=" " autocomplete="new-password"><label for="passInput" class="floating-label">كلمة المرور</label><svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><span class="field-error">اكتب كلمة المرور</span></div>
+        <div class="field" id="identifierField">
+          <label class="lbl" for="identifierInput">اسم المستخدم</label>
+          <div class="input-shell">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" class="num" id="identifierInput" name="username" autocomplete="username" autocapitalize="off" spellcheck="false">
+          </div>
+          <span class="field-error">اكتب اسم المستخدم</span>
+        </div>
+
+        <div class="field" id="passField">
+          <label class="lbl" for="passInput">كلمة المرور</label>
+          <div class="input-shell">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <input type="password" id="passInput" name="password" autocomplete="current-password" style="direction:ltr;text-align:right">
+          </div>
+          <span class="field-error">اكتب كلمة المرور</span>
+        </div>
+
         <button type="submit" class="submit-btn" id="submitBtn">
           <span class="btn-text">دخول</span>
           <span class="spinner" aria-hidden="true"></span>
         </button>
-
       </form>
 
     </div>
@@ -112,5 +107,19 @@
     },400);
   });
 </script>
-<script src="mobile-app.js?v=1"></script>
+<script>
+  /* إظهار/إخفاء كلمة المرور + مسح علامة الخطأ أثناء الكتابة */
+  (function(){
+    var inp=document.getElementById('passInput'),sh=inp.closest('.input-shell');
+    var EYE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+    var OFF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a10 10 0 0 0 4.2-.9"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+    inp.style.paddingLeft='46px';
+    var b=document.createElement('button');b.type='button';b.className='pw-toggle';b.tabIndex=-1;b.setAttribute('aria-label','إظهار كلمة المرور');b.innerHTML=EYE;
+    b.style.cssText='position:absolute;left:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;padding:8px;border-radius:10px;display:grid;place-items:center;line-height:0';
+    b.addEventListener('click',function(){var s=inp.type==='password';inp.type=s?'text':'password';b.innerHTML=s?OFF:EYE;b.setAttribute('aria-label',s?'إخفاء كلمة المرور':'إظهار كلمة المرور');inp.focus()});
+    sh.appendChild(b);
+    document.querySelectorAll('.field input').forEach(function(el){el.addEventListener('input',function(){var f=el.closest('.field');if(f)f.classList.remove('has-error')})});
+  })();
+</script>
+<script src="mobile-app.js?v=2"></script>
 </body></html>

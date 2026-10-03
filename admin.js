@@ -113,7 +113,44 @@ async function addCenter(){const n=V('cn');if(!n)return;const Z=await g('centers
 async function genModal(){const Z=await g('centers')||{},ks=Object.keys(Z).filter(k=>k.length===4);if(!ks.length)return alert('أضف سنتر أولاً');document.body.insertAdjacentHTML('beforeend',`<div class="amodal" id="md"><div class="box"><h3>توليد أكواد</h3><label class="muted">السنتر</label><select id="cs" onchange="$('#cc').textContent=this.value">${ks.map(k=>`<option value="${k}">${esc(Z[k])}</option>`).join('')}</select><p>كود السنتر الثابت (4 أرقام): <b id="cc" style="font-size:22px">${ks[0]}</b></p><label class="muted">عدد الأكواد</label><input type="number" id="cnt" value="10" min="1" max="500"><div id="gr"></div><div class="acts"><button class="btn btn-primary btn-sm" onclick="doGen()">توليد</button><button class="btn btn-outline btn-sm" onclick="window.print()">طباعة</button><button class="btn btn-outline btn-sm" onclick="$('#md').remove()">إغلاق</button></div></div></div>`)}
 async function doGen(){const p=V('cs'),K=await g('codes')||{},n=Math.min(500,Math.max(1,+V('cnt')||1)),u={},out=[];while(out.length<n){const c=p+String(Math.floor(Math.random()*1e8)).padStart(8,'0');if(!K[c]&&!u['codes/'+c]){u['codes/'+c]=true;out.push(c)}}await db.ref().update(u);$('#gr').innerHTML=out.map(c=>`<div><b>${c}</b></div>`).join('');const Zc={};Zc[p]=$('#cs').selectedOptions[0].textContent;$('#pr').innerHTML=tickets(out,Zc)}
 async function delCenter(p){if(confirm('حذف السنتر؟ (الأكواد المولدة تبقى كما هي)')){await db.ref('centers/'+p).remove();route()}}
-async function delCode(k,s){if(!confirm('مسح الكود وكل بيانات الطالب؟'))return;await db.ref().update({['codes/'+k]:null,['users/'+k]:null,['userProgress/'+k]:null,['userEnrollments/'+k]:null});GO='codes'}
+/* مسح الكود نهائيًا: الاسم + رقم الهاتف (وفهرسه) + كل بيانات الطالب في كل المسارات، في عملية واحدة (يا كلها يا ولا حاجة) */
+async function delCode(k,s){
+ k=String(k);if(!/^\d{12}$/.test(k))return;
+ if(!confirm('مسح الكود '+k+' نهائيًا؟\n\nهيتمسح معاه: الاسم ورقم الهاتف ورقم ولي الأمر، والتقدم والاشتراك في الكورسات، ونتائج الاختبارات والمقالات، والحضور والغياب والدفع، والملاحظات والإشعارات، وتعليقاته وأسئلته في المنتدى.\n\nلا يمكن التراجع.'))return;
+ try{
+  const [prog,comps,enr,sess,pix,forum,log]=await Promise.all([g('userProgress/'+k),g('competitions'),g('enrollments'),g('attSessions'),g('phoneIndex'),g('forumQuestions'),g('attLog')]);
+  const up={},put=p=>{up[p]=null};
+  /* مسارات مفتاحها كود الطالب مباشرة */
+  ['codes','users','userProgress','userEnrollments','notifications','notifiedLessons','notes','favorites','violations','sessions','attPayments'].forEach(n=>put(n+'/'+k));
+  /* فهرس رقم الهاتف (أي رقم بيشاور على الكود ده، بأي صيغة) */
+  Object.entries(pix||{}).forEach(([ph,c])=>{if(c===k)put('phoneIndex/'+ph)});
+  /* الاشتراك في الكورسات */
+  new Set([...Object.keys(comps||{}),...Object.keys(enr||{}),...Object.keys(prog||{})]).forEach(c=>put('enrollments/'+c+'/'+k));
+  /* الحضور: تسجيل كل حصة + سجل الحضور */
+  Object.keys(sess||{}).forEach(sid=>put('attRecords/'+sid+'/'+k));
+  Object.entries(log||{}).forEach(([id,l])=>{if(l&&l.code===k)put('attLog/'+id)});
+  /* أسئلة المنتدى اللي كتبها الطالب */
+  Object.entries(forum||{}).forEach(([c,Q])=>Object.entries(Q||{}).forEach(([id,q])=>{if(q&&q.uid===k)put('forumQuestions/'+c+'/'+id)}));
+  /* محاولات الاختبارات + تسليمات المقال + تعليقاته على الفيديوهات */
+  const T=new Set(),addT=(c,l,e)=>T.add(c+'/'+l+'/'+e);
+  Object.entries(comps||{}).forEach(([c,C])=>Object.entries((C&&C.lessons)||{}).forEach(([l,L])=>{
+   Object.keys((L&&L.exams)||{}).forEach(e=>addT(c,l,e));
+   Object.entries((L&&L.videos)||{}).forEach(([v,V])=>Object.entries((V&&V.comments)||{}).forEach(([id,cm])=>{if(cm&&cm.uid===k)put('competitions/'+c+'/lessons/'+l+'/videos/'+v+'/comments/'+id)}));
+  }));
+  Object.entries(prog||{}).forEach(([c,P])=>Object.entries(P||{}).forEach(([l,Q])=>Object.keys((Q&&Q.exams)||{}).forEach(e=>addT(c,l,e))));
+  /* محاولات على اختبارات اتحذفت: نكتشفها بقراءة مفاتيح فقط (shallow) من غير تحميل الإجابات. لو فشلت بنكمل بالباقي */
+  try{
+   const sh=async q=>{const r=await fetch(cfg.databaseURL+'/'+q+'.json?shallow=true');const j=await r.json();return j&&typeof j==='object'?Object.keys(j):[]};
+   for(const c of await sh('examAttempts'))await Promise.all((await sh('examAttempts/'+c)).map(async l=>{(await sh('examAttempts/'+c+'/'+l)).forEach(e=>addT(c,l,e))}));
+  }catch(e){}
+  T.forEach(t=>{put('examAttempts/'+t+'/'+k);put('essaySubmissions/'+t+'/'+k)});
+  await db.ref().update(up);
+  GO='codes';
+ }catch(e){
+  alert('تعذر مسح الكود، ومفيش حاجة اتمسحت. تأكد من الإنترنت وإن قواعد Firebase منشورة، وجرّب تاني.');
+  console.error(e);
+ }
+}
 async function block(k,v){const u=await g('users/'+k)||{},now=Date.now(),d=new Date(now),up={[`users/${k}/blocked`]:v};
  if(v){up[`users/${k}/blockReason`]='manual';up[`users/${k}/blockedAt`]=now}
  else{up[`users/${k}/blockReason`]=null;up[`users/${k}/blockedAt`]=null;if(/^(absence|payment)/.test(u.blockReason||''))up[`users/${k}/attOverride`]={at:now,month:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}}

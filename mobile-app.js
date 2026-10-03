@@ -1,14 +1,19 @@
-/* mobile-app.js — زر ملء الشاشة + اسم المطور (للهاتف فقط) */
+/* mobile-app.js — زر ملء الشاشة + اسم المطور + زر العودة لأعلى (للهاتف فقط) */
 (function(){
 var doc=document,de=doc.documentElement,mq=window.matchMedia('(max-width:600px) and (pointer:coarse)');
 var IN='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
 var OUT='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+var UP='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
 var can=!!(de.requestFullscreen||de.webkitRequestFullscreen);
 function isFs(){return !!(doc.fullscreenElement||doc.webkitFullscreenElement)}
 function toggle(){try{isFs()?(doc.exitFullscreen||doc.webkitExitFullscreen).call(doc):(de.requestFullscreen||de.webkitRequestFullscreen).call(de)}catch(e){}}
 function sync(){var l=doc.querySelectorAll('.fs-btn');for(var i=0;i<l.length;i++)l[i].innerHTML=isFs()?OUT:IN}
 function meta(n,c){if(doc.querySelector('meta[name="'+n+'"]'))return;var m=doc.createElement('meta');m.name=n;m.content=c;doc.head.appendChild(m)}
 meta('apple-mobile-web-app-capable','yes');meta('mobile-web-app-capable','yes');meta('apple-mobile-web-app-status-bar-style','black-translucent');meta('theme-color','#06142B');
+/* صفحات الدخول والتسجيل: بدون اسم المطور (body[data-no-dev]) */
+function noDev(){return !!(doc.body&&doc.body.hasAttribute('data-no-dev'))}
+var upOn=false;
+function onScroll(){var t=doc.querySelector('.to-top');if(!t)return;var s=(window.pageYOffset||de.scrollTop||0)>500;if(s!==upOn){upOn=s;t.classList.toggle('show',s)}}
 function mount(){
  if(!mq.matches||!doc.body)return;
  var host=doc.querySelector('.nv-end')||doc.querySelector('.sb-foot'),b=doc.querySelector('.fs-btn');
@@ -18,8 +23,18 @@ function mount(){
   else if(!host)b.classList.add('fs-float');
  }
  var d=doc.querySelector('.dev-credit');
- if(!d){d=doc.createElement('div');d.className='dev-credit';d.innerHTML='<span>تطوير وبرمجة</span><b dir="ltr">Khaled Mohamed</b>'}
- if(d.parentNode!==doc.body||d.nextElementSibling)doc.body.appendChild(d);
+ if(noDev()){if(d&&d.parentNode)d.parentNode.removeChild(d)}
+ else{
+  if(!d){d=doc.createElement('div');d.className='dev-credit';d.innerHTML='<span>تطوير وبرمجة</span><b dir="ltr">Khaled Mohamed</b>'}
+  if(d.parentNode!==doc.body||d.nextElementSibling)doc.body.appendChild(d);
+ }
+ /* اختصار: زر العودة لأعلى (مش في الدخول ولا الفيديو ولا الامتحان) */
+ var p=(location.pathname.split('/').pop()||'');
+ if(!noDev()&&!/^(video|exam)\.html$/.test(p)&&!doc.querySelector('.to-top')){
+  var t=doc.createElement('button');t.type='button';t.className='to-top';t.setAttribute('aria-label','العودة لأعلى الصفحة');t.innerHTML=UP;
+  t.onclick=function(){window.scrollTo({top:0,behavior:'smooth'})};
+  doc.body.appendChild(t);window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+ }
 }
 doc.addEventListener('fullscreenchange',sync);doc.addEventListener('webkitfullscreenchange',sync);
 function start(){mount();var t;var o=new MutationObserver(function(){clearTimeout(t);t=setTimeout(mount,60)});o.observe(doc.body,{childList:true});setTimeout(function(){o.disconnect()},8000)}

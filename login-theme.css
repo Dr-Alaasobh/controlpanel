@@ -16,3 +16,8 @@ button[type=submit],.btn,.btn-primary,.submit-btn{background:linear-gradient(135
 .star-field{display:none!important}
 .brand{background:linear-gradient(135deg,#1E4FD1 0%,#0A1830 70%)!important}
 .submit-btn{background:linear-gradient(135deg,#2563EB,#0F9F82)!important;border-radius:12px!important}
+
+/* ===== v2: صفحات الدخول/التسجيل على الهاتف ===== */
+@supports(min-height:100dvh){body,.shell{min-height:100dvh}}
+@media(max-width:820px){.shell .form-panel{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}}
+@media(max-width:600px){.shell .form-panel{padding-left:16px;padding-right:16px}.shell .form-wrap{max-width:100%}}
